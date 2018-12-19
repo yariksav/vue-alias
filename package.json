@@ -1,0 +1,45 @@
+{
+  "name": "vue-alias",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/vue-alias.umd.js",
+  "module": "dist/vue-alias.esm.js",
+  "unpkg": "dist/vue-alias.min.js",
+  "browser": {
+    "./sfc": "src/vue-alias.vue"
+  },
+  "files": [
+    "dist/*",
+    "src/*"
+  ],
+  "scripts": {
+    "build": "npm run build:unpkg & npm run build:es & npm run build:umd",
+    "build:umd": "rollup --config build/rollup.config.js --format umd --file dist/vue-alias.umd.js",
+    "build:es": "rollup --config build/rollup.config.js --format es --file dist/vue-alias.esm.js",
+    "build:unpkg": "rollup --config build/rollup.config.js --format iife --file dist/vue-alias.min.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "minimist": "^1.2.0",
+    "rollup": "^0.66.2",
+    "rollup-plugin-buble": "^0.19.2",
+    "rollup-plugin-uglify-es": "0.0.1",
+    "rollup-plugin-vue": "^4.3.0",
+    "vue": "^2.5.16",
+    "vue-template-compiler": "^2.5.16"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yariksav/vue-alias.git"
+  },
+  "keywords": [
+    "vue",
+    "alias"
+  ],
+  "author": "Yaroslav Savaryn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yariksav/vue-alias/issues"
+  },
+  "homepage": "https://github.com/yariksav/vue-alias#readme"
+}
