@@ -7,7 +7,11 @@ export default class VueAlias {
   }
 
   component (name, component) {
-    this._aliases[name] = typeof component === 'string' ? { component } : component
+    if (typeof component === 'string') {
+      this._aliases[name] = { component }
+    } else {
+      this._aliases[name] = component
+    }
   }
 
   components (components) {
@@ -23,26 +27,26 @@ export default class VueAlias {
 
   process (name, options) {
     let alias = this.getAlias(name)
-    console.log(alias, name)
     if (alias) {
       name = alias.component
-      if (alias.replaces) {
+      if (typeof options === 'object') {
         let props = options.props
-        props = changeObjectKeys(props, alias.replaces, ['component'])
-        if (alias.props) {
-          props = { ...alias.props, ...props }
+        let attrs = options.attrs
+        if (alias.replaces) {
+          props = changeObjectKeys(options.props || {}, alias.replaces, ['component'])
+          attrs = changeObjectKeys(options.attrs || {}, alias.replaces, ['component'])
         }
-        options.props = props
+        options.props = { ...alias.props, ...props }
+        options.attrs = { ...alias.attrs, ...attrs }
       }
     }
     return name
   }
 
   wrapHandler (handler) {
-    return (name, options, children) => {
+    return (name, options, children, d) => {
       name = this.process(name, options)
-      console.log(name, options)
-      return handler(name, options, children)
+      return handler(name, options, children, d)
     }
   }
 }

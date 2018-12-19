@@ -1,5 +1,4 @@
 // rollup.config.js
-import vue from 'rollup-plugin-vue';
 import buble from 'rollup-plugin-buble';
 import uglify from 'rollup-plugin-uglify-es';
 import minimist from 'minimist';
@@ -13,10 +12,6 @@ const config = {
     exports: 'named',
   },
   plugins: [
-    vue({
-      css: true,
-      compileTemplate: true,
-    }),
     buble({
       objectAssign: 'Object.assign'
     }),
