@@ -21,10 +21,10 @@ In future it wiil help you change components or frameworks
 example
 
 ```js
-import { aliases } from 'vue-alias'
+import { register } from 'vue-alias'
 
 // register aliases
-aliases({
+register({
   text: {
     component: 'VTextField',
     replaces: {
@@ -56,5 +56,15 @@ import { wrapHandler } from 'vue-alias'
 render (h) {
   h = wrapHandler(h)
   return h('select', {props: {}}, children)
+}
+```
+
+or
+
+```js
+import { alias } from 'vue-alias'
+
+...
+const cmp = alias(component)
 }
 ```

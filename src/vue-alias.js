@@ -30,8 +30,8 @@ export default class VueAlias {
     if (alias) {
       name = alias.component
       if (typeof options === 'object') {
-        let props = options.props
-        let attrs = options.attrs
+        let props = options.props || {}
+        let attrs = options.attrs || {}
         if (alias.replaces) {
           props = changeObjectKeys(options.props || {}, alias.replaces, ['component'])
           attrs = changeObjectKeys(options.attrs || {}, alias.replaces, ['component'])
@@ -41,6 +41,18 @@ export default class VueAlias {
       }
     }
     return name
+  }
+
+  parse (params) {
+    const name = params.component || component
+    const alias = this.getAlias(name)
+    const component = (alias && alias.component) || name
+    const bind = {...alias, ...params}
+    delete bind.component
+    return {
+      component,
+      bind
+    }
   }
 
   wrapHandler (handler) {
@@ -59,17 +71,21 @@ const ensureAliaser = () => {
   }
 }
 
-export const alias = (name, component) => {
+export const register = (name, component) => {
   ensureAliaser()
-  defaultAlias.component(name, component)
-}
-
-export const aliases = (components) => {
-  ensureAliaser()
-  defaultAliaser.components(components)
+  if (component) {
+    defaultAliaser.component(name, component)
+  } else {
+    defaultAliaser.components(name)
+  }
 }
 
 export const wrapHandler = (handler) => {
   ensureAliaser()
   return defaultAliaser.wrapHandler(handler)
+}
+
+export const alias = (params) => {
+  ensureAliaser()
+  return defaultAliaser.parse(params)
 }
